@@ -23,19 +23,9 @@ A basic Go program that responds to requests with an environment variable templa
 
 ## With Docker
 
-1. `docker pull golang:1.14`
-
-1. Build and/or run
-
    ```
-   docker run --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp golang:1.14 go build main.go
-   docker run -e "ENV=production" --rm -p 8080:8080 -v "$PWD":/usr/src/myapp -w /usr/src/myapp golang:1.14 ./main
-   ```
-
-   or
-
-   ```
-   docker run -e "ENV=production" --rm -p 8080:8080 -v "$PWD":/usr/src/myapp -w /usr/src/myapp golang:1.14 go run main.go
+   docker build -t hello-world .
+   docker run -e "ENV=production" --rm -p 8080:8080 hello-world
    ```
 
 # Interacting
