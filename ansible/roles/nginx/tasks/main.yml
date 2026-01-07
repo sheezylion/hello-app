@@ -1,11 +1,16 @@
----
-- name: Install NGINX
+- name: Install nginx
   yum:
     name: nginx
     state: present
 
-- name: Start and enable NGINX
-  systemd:
+- name: Deploy nginx config
+  template:
+    src: hello.conf.j2
+    dest: /etc/nginx/conf.d/hello.conf
+  notify: reload nginx
+
+- name: Ensure nginx is running
+  service:
     name: nginx
     state: started
     enabled: true

@@ -1,7 +1,17 @@
----
-- name: Install certbot
+- name: Install certbot and nginx plugin
   yum:
     name:
       - certbot
       - python3-certbot-nginx
     state: present
+
+- name: Obtain SSL certificates
+  command: >
+    certbot --nginx
+    --non-interactive
+    --agree-tos
+    -m admin@asgnmnt.space
+    -d production.asgnmnt.space
+    -d staging.asgnmnt.space
+  args:
+    creates: /etc/letsencrypt/live/production.asgnmnt.space/fullchain.pem
