@@ -1,0 +1,8 @@
+- hosts: web
+  become: true
+  roles:
+    - common
+    - docker
+    - nginx
+    - app
+    - certbot

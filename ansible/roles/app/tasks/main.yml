@@ -1,0 +1,32 @@
+---
+- name: Clone application repository
+  git:
+    repo: https://github.com/sheezylion/hello-app.git
+    dest: /opt/hello-svc
+    version: main
+
+- name: Build Docker image
+  command: docker build -t hello-svc .
+  args:
+    chdir: /opt/hello-svc
+  become_user: ec2-user
+
+- name: Run production container
+  command: >
+    docker run -d --restart always
+    --name hello-prod
+    -e ENV=production
+    -p 8080:8080
+    hello-svc
+  become_user: ec2-user
+  ignore_errors: true
+
+- name: Run staging container
+  command: >
+    docker run -d --restart always
+    --name hello-staging
+    -e ENV=staging
+    -p 8081:8080
+    hello-svc
+  become_user: ec2-user
+  ignore_errors: true
